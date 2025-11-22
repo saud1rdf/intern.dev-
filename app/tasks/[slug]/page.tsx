@@ -1,25 +1,31 @@
 import fs from 'fs';
 import path from 'path';
 
-type TaskParams = {
-  slug: string;
-};
-
+// تقرأ محتوى ملف الـ task من مجلد content/tasks
 function getTaskContent(slug: string): string | null {
   const tasksDir = path.join(process.cwd(), 'content', 'tasks');
   const filePath = path.join(tasksDir, `${slug}.md`);
+
   if (!fs.existsSync(filePath)) return null;
+
   return fs.readFileSync(filePath, 'utf8');
 }
 
-export default function TaskDetailPage({ params }: { params: TaskParams }) {
+// هذه هي صفحة تفاصيل المهمة /tasks/[slug]
+export default function TaskDetailPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const content = getTaskContent(params.slug);
 
   if (!content) {
     return (
       <main className="max-w-3xl mx-auto py-10 px-4">
         <h1 className="text-xl font-semibold mb-4">Task not found</h1>
-        <p className="text-sm text-gray-500">No task file was found for this slug in <code>content/tasks</code>.</p>
+        <p className="text-sm text-gray-500">
+          No task file was found for this slug in <code>content/tasks</code>.
+        </p>
       </main>
     );
   }
