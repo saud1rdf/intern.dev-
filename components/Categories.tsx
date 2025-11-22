@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { useLanguage } from '@/components/providers/LanguageProvider'
-import { Button } from '@/components/ui/Button'
+import { useLanguage } from './providers/LanguageProvider'
+import { Button } from './ui/Button'
 import { 
   Globe, 
   Zap, 
@@ -130,3 +130,4 @@ export default function Categories() {
     </section>
   )
 }
+
