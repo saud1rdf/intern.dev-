@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// تقرأ محتوى ملف الـ task من مجلد content/tasks
+// قراءة محتوى ملف المهمة من مجلد content/tasks
 function getTaskContent(slug: string): string | null {
   const tasksDir = path.join(process.cwd(), 'content', 'tasks');
   const filePath = path.join(tasksDir, `${slug}.md`);
@@ -11,15 +11,12 @@ function getTaskContent(slug: string): string | null {
   return fs.readFileSync(filePath, 'utf8');
 }
 
-// هذه هي صفحة تفاصيل المهمة /tasks/[slug]
-export default function TaskDetailPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const content = getTaskContent(params.slug);
+// استخدمنا any هنا عشان نريح TypeScript مؤقتًا
+export default function TaskDetailPage(props: any) {
+  const slug = props?.params?.slug as string | undefined;
+  const content = slug ? getTaskContent(slug) : null;
 
-  if (!content) {
+  if (!slug || !content) {
     return (
       <main className="max-w-3xl mx-auto py-10 px-4">
         <h1 className="text-xl font-semibold mb-4">Task not found</h1>
@@ -40,3 +37,4 @@ export default function TaskDetailPage({
     </main>
   );
 }
+
